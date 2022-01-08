@@ -22,9 +22,9 @@ def kinp_search(film_name):
 
         find_film = driver.find_element(By.NAME, 'kp_query')
         find_film.send_keys(film_name)
-        time.sleep(2)
-        find_film.send_keys(Keys.ENTER)
         time.sleep(1)
+        find_film.send_keys(Keys.ENTER)
+        time.sleep(2)
 
         get_first = driver.find_element(By.ID, 'content_block')
         get_second = get_first.find_element(By.CLASS_NAME, 'search_results')
