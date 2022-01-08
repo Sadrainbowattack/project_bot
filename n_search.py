@@ -34,6 +34,7 @@ def netflix_search (film_name):
         get_eight = get_four.find_element(By.ID,'title-card-0-0')
         get_nine = get_eight.find_element(By.TAG_NAME, 'a')
         film_url = get_nine.get_attribute('href')
+        
         return film_url
     
     except Exception as ex:
