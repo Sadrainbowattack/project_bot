@@ -26,7 +26,7 @@ def search_film(update, context):
     else:
         kp_search_result = kinp_search(film_name)
         film_real_name = kp_search_result[0]
-        print(film_real_name)
+        
         film_urls_pool = []
 
         # Запуск тредов

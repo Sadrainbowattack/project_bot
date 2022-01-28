@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 import pickle
 import time
 import logging
+from settings import driver_path
 
 # Настройка опций: обнаружение автоматизации, уведомления, звук, окно браузера
 option = webdriver.FirefoxOptions()
@@ -13,7 +14,7 @@ option.set_preference('dom.webnotifications.enabled', False)
 option.set_preference('media.volume_scale', '0.0')
 option.headless = True
 
-driver = webdriver.Firefox(executable_path='C:\\projects\\project_bot\\geckodriver\\geckodriver', options=option)
+driver = webdriver.Firefox(executable_path=driver_path, options=option)
 
 #  поиск по Netflix
 
