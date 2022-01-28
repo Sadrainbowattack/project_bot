@@ -7,7 +7,7 @@ from kp_search import kinp_search
 from n_search import netflix_search
 from okko_search import okkotv_search
 from ivi_search import iviru_search
-from db_query import find_film_urls, save_film, save_urls, save_user_request
+from db_query import save_film, save_urls, save_user_request
 
 
 logging.basicConfig(filename="bot.log", level=logging.INFO)
