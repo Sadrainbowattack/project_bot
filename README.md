@@ -8,11 +8,15 @@
 ### Установка
 1. Клонируйте репозиторий, создайте виртуальное окружение
 2. Установите зависимости `pip install -r requirements.txt`
-3. Создайте файл settings.py и создайте в нем переменные:
-API_KEY='Ключ вашего бота'
-BD_KEY='Ссылка на вашу Базу данных'
+3. Скачайте актуальну версию geckodriver для вашей системы https://github.com/mozilla/geckodriver/releases
+4. Создайте файл settings.py и создайте в нем переменные:
+API_KEY = 'Ключ вашего бота'
+BD_KEY = 'Ссылка на вашу Базу данных'
+driver_path = 'Путь до geckodriver'
 n_login = 'Логин netflix'
 n_password = 'Пароль netflix'
+
+
 
 ### Запуск
 Чтобы запустить бота, выполните в консоли:python bot_main.py
