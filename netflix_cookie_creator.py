@@ -4,12 +4,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import pickle
 import time
-from settings import n_login, n_password
+from settings import n_login, n_password, driver_path
 
-options = webdriver.ChromeOptions()
-options.add_argument('--disable-blink-features=AutomatiomControlled')
+option = webdriver.FirefoxOptions()
+option.set_preference('dom.webdriver.enables', False)
+option.set_preference('dom.webnotifications.enabled', False)
+option.set_preference('media.volume_scale', '0.0')
 url = 'https://www.netflix.com/ru/login'
-driver = webdriver.Chrome(executable_path='C:\\projects\\project_bot\\chromedriver\\chromedriver')
+driver = webdriver.Chrome(executable_path=driver_path)
 
 try:
     driver.get(url=url)

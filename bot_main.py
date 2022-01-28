@@ -25,15 +25,14 @@ def search_film(update, context):
         update.message.reply_text('Введите название фильма')
     else:
         kp_search_result = kinp_search(film_name)
-        film_real_name = kp_search_result[0]
-        print(film_real_name)
+
         film_urls_pool = []
 
         # Запуск тредов
         with concurrent.futures.ThreadPoolExecutor() as exexutor:
-            n_search_result = exexutor.submit(netflix_search,film_real_name,)
-            okko_search_result = exexutor.submit(okkotv_search, film_real_name,)
-            ivi_search_result = exexutor.submit(iviru_search, film_real_name,)
+            n_search_result = exexutor.submit(netflix_search, film_name,)
+            okko_search_result = exexutor.submit(okkotv_search, film_name,)
+            ivi_search_result = exexutor.submit(iviru_search, film_name,)
 
             film_urls_pool.append(n_search_result.result())
             film_urls_pool.append(okko_search_result.result())

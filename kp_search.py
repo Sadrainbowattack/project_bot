@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
 import logging
+from settings import driver_path
 
 # Настройка опций: обнаружение автоматизации, уведомления, звук, окно браузера
 option = webdriver.FirefoxOptions() #Настройка опций: обнаружение автоматизации, уведомления, звук, окно браузера
@@ -12,7 +13,7 @@ option.set_preference('dom.webnotifications.enabled', False)
 option.set_preference('media.volume_scale', '0.0')
 # option.headless = True
 
-driver = webdriver.Firefox(executable_path='C:\\projects\\project_bot\\geckodriver\\geckodriver', options=option)
+driver = webdriver.Firefox(executable_path=driver_path, options=option)
 
 # поиск по Кинопоиску 
 
@@ -44,5 +45,4 @@ def kinp_search(film_name):
         logging.info(f'Flim {film_real_name} not found: {ex}')
         return 'Not_found'
 
-if __name__ == "__main__":
-    kinp_search('')
+
