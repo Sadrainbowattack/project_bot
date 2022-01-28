@@ -45,5 +45,4 @@ def kinp_search(film_name):
         logging.info(f'Flim {film_real_name} not found: {ex}')
         return 'Not_found'
 
-if __name__ == "__main__":
-    kinp_search('')
+

@@ -58,4 +58,3 @@ def netflix_search (film_name, *args, **kwargs):
         return 'Not_found'
 
 
-
