@@ -4,29 +4,44 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import pickle
 import time
+import logging
 
-url = 'https://www.netflix.com/browse'
-driver = webdriver.Chrome(executable_path='C:\\projects\\project_bot\\chromedriver\\chromedriver')
+# Настройка опций: обнаружение автоматизации, уведомления, звук, окно браузера
+option = webdriver.FirefoxOptions()
+option.set_preference('dom.webdriver.enables', False)
+option.set_preference('dom.webnotifications.enabled', False)
+option.set_preference('media.volume_scale', '0.0')
+option.headless = True
 
-def netflix_search (film_name):
+driver = webdriver.Firefox(executable_path='C:\\projects\\project_bot\\geckodriver\\geckodriver', options=option)
+
+#  поиск по Netflix
+
+def netflix_search (film_name, *args, **kwargs):
+    print('netflix_search')
+    print(args)
+    print(kwargs)
     try:
-        driver.get(url=url)
+        driver.get('https://www.netflix.com/browse')
         driver.delete_all_cookies()
+        print('netflix_started')
 
+        #Подгрузка куки
         for cookie in pickle.load(open(f'netflix_cookies', 'rb')):
             driver.add_cookie(cookie)
-        time.sleep(1)
         driver.refresh()
-        time.sleep(1)
+        time.sleep(0.5)
 
+        #Инициализация поиска
         search_start = driver.find_element(By.CLASS_NAME, 'searchBox')
         search_start.find_element(By.CLASS_NAME, 'searchTab').click()
-        time.sleep(1)
+        time.sleep(0.5)
         search_film_input = search_start.find_element(By.CLASS_NAME, 'searchInput')
-        time.sleep(1)
         search_film = search_film_input.find_element(By.ID, 'searchInput')
         search_film.send_keys(film_name)
-        time.sleep(3)
+        time.sleep(1.5)
+
+        #Получение ссылки
         get_first = driver.find_element(By.ID, 'appMountPoint')
         get_second = get_first.find_element(By.CLASS_NAME, 'mainView')
         get_three = get_second.find_element(By.CLASS_NAME, 'search')
@@ -38,7 +53,7 @@ def netflix_search (film_name):
         return film_url
     
     except Exception as ex:
-        print(ex)
+        logging.info(f'Flim {film_name} not found: {ex}')
         return 'Not_found'
 
 

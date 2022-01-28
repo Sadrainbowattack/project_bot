@@ -1,30 +1,57 @@
 import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import settings
-import time
+import threading
+import concurrent.futures
 from kp_search import kinp_search
 from n_search import netflix_search
-from moretv_search import more_search
+from okko_search import okkotv_search
+from ivi_search import iviru_search
+from db_query import find_film_urls, save_film, save_urls, save_user_request
+
 
 logging.basicConfig(filename="bot.log", level=logging.INFO)
 
-
-def greet_user(update, context):
+# Приветствие Юзера
+def greet_user(update):
     update.message.reply_text("Здравствуй, пользователь! Для поиска фильма введи - /search 'Название фильма'")
 
-def search_film(update, context):
-    update.message.reply_text('Минуточку, начал поиск')
-    film_name = " ".join(map(str, context.args))
-    kp_search_result = kinp_search(film_name)
-    n_search_result = netflix_search(film_name)
-    m_search = more_search(film_name)
 
-    update.message.reply_text(f'Самые похожие результаты')
-    time.sleep(1)
-    update.message.reply_text(f'Кинопоиск - {kp_search_result}')
-    update.message.reply_text(f'Netflix - {n_search_result}')
-    update.message.reply_text(f'More.tv - {m_search}')
-    
+# Поиск фильма
+def search_film(update, context):
+    update.message.reply_text('Начал поиск. Обычно это занимет не больше минуты')
+    film_name = " ".join(map(str, context.args))
+    if film_name == '' or None:
+        update.message.reply_text('Введите название фильма')
+    else:
+        kp_search_result = kinp_search(film_name)
+        film_real_name = kp_search_result[0]
+        print(film_real_name)
+        film_urls_pool = []
+
+        # Запуск тредов
+        with concurrent.futures.ThreadPoolExecutor() as exexutor:
+            n_search_result = exexutor.submit(netflix_search,film_real_name,)
+            okko_search_result = exexutor.submit(okkotv_search, film_real_name,)
+            ivi_search_result = exexutor.submit(iviru_search, film_real_name,)
+
+            film_urls_pool.append(n_search_result.result())
+            film_urls_pool.append(okko_search_result.result())
+            film_urls_pool.append(ivi_search_result.result())
+
+        # Ответ пользователю
+        update.message.reply_text(f'Самые похожие результаты')
+        update.message.reply_text(f'Кинопоиск - {kp_search_result[1]}')
+        update.message.reply_text(f'Netflix - {film_urls_pool[0]}')
+        update.message.reply_text(f'Okko.tv - {film_urls_pool[1]}')
+        update.message.reply_text(f'Ivi.ru - {film_urls_pool[2]}')
+        
+        # Сохранение в Бд
+        save_film(kp_search_result[0])
+        save_user_request(kp_search_result[0], film_name)
+        save_urls(kp_search_result[0], kp_search_result[1], film_urls_pool[0], film_urls_pool[1], film_urls_pool[2])
+            
+
 
 def main():
     mybot = Updater(settings.API_KEY, use_context=True)
