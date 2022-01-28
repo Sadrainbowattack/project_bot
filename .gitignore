@@ -30,6 +30,10 @@ settings.py
 chromedriver/
 *cookies*
 proxy.zip
+geckodriver/
+moretv_search.py
+kinoposik_cookie_creator.py
+films_db.py
 
 
 # PyInstaller
