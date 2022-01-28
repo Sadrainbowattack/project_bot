@@ -6,6 +6,7 @@ import pickle
 import time
 from settings import n_login, n_password, driver_path
 
+
 option = webdriver.FirefoxOptions()
 option.set_preference('dom.webdriver.enables', False)
 option.set_preference('dom.webnotifications.enabled', False)

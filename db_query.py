@@ -11,7 +11,7 @@ def find_film_urls(film_name):
     urls_list = db_session.query(Urls.kp_url, Urls.netflix_url, Urls.okko_url, Urls.ivi_url).filter(Urls.film_id==get_film_id(film_name)[0]).first()
     return urls_list
 
-# Добавление в базу Названия
+# Добавление в базу Названия 
 def save_film(film_name):
     film = Film(name=film_name)
     db_session.add(film)

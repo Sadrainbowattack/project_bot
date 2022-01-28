@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from films_db import Base, engine
 
+
 class Film(Base):
     __tablename__ = 'films'
 

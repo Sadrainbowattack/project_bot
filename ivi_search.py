@@ -6,6 +6,7 @@ import time
 import logging
 from settings import driver_path
 
+
 # Настройка опций: обнаружение автоматизации, уведомления, звук, окно браузера
 option = webdriver.FirefoxOptions() 
 option.set_preference('dom.webdriver.enables', False)
